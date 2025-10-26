@@ -50,7 +50,7 @@ const UserManagement = () => {
 
     const fetchData = async () => {
         const res = await requestGetAllUsers();
-        setData(res.metadata);
+        setData(res.data);
     };
 
     useEffect(() => {

@@ -1,8 +1,7 @@
 const User = require('./users.model');
-// const apikey = require('../models/apiKey.model');
-const product = require('../models/product.model');
-const historyBook = require('../models/historyBook.model');
-const otp = require('../models/otp.model');
+
+const product = require('./product.model');
+const historyBook = require('./historyBook.model');
 
 // User.hasOne(apikey, { foreignKey: 'userId', as: 'apiKey', onDelete: 'CASCADE' });
 // apikey.belongsTo(User, { foreignKey: 'userId', as: 'user' });

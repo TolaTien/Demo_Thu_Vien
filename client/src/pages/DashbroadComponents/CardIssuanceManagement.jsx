@@ -14,7 +14,7 @@ const CardIssuanceManagement = () => {
         setLoading(true);
         try {
             const res = await requestGetRequestLoan();
-            setData(res.metadata);
+            setData(res.data);
         } catch (error) {
             message.error('Không thể tải danh sách yêu cầu');
         } finally {

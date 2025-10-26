@@ -37,8 +37,8 @@ function Header() {
             }
             try {
                 const res = await requestSearchProduct(debounce);
-                setSearchResults(res.metadata);
-                setIsResultVisible(res.metadata.length > 0);
+                setSearchResults(res.data);
+                setIsResultVisible(res.data.length > 0);
             } catch (error) {
                 console.error('Failed to search for products:', error);
                 setSearchResults([]);

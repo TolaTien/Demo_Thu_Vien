@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Avatar, Descriptions, Button, Spin, message, Form, Input, Upload } from 'antd';
-import { UserOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
-import { requestIdStudent, requestUpdateUser, requestUploadImage } from '../../config/request';
+import { Card, Avatar, Descriptions, Button, Form, Input } from 'antd';
+import { UserOutlined, EditOutlined } from '@ant-design/icons';
+import { requestIdStudent, requestUpdateUser } from '../../config/request';
 import { toast } from 'react-toastify';
 import { useStore } from '../../hooks/useStore';
 
 const PersonalInfo = () => {
-    const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [form] = Form.useForm();
 
@@ -23,7 +22,7 @@ const PersonalInfo = () => {
             const res = await requestIdStudent();
             toast.success(res.message);
         } catch (error) {
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || 'Gửi yêu cầu thất bại');
         }
     };
 
@@ -33,40 +32,8 @@ const PersonalInfo = () => {
             toast.success('Cập nhật thông tin thành công');
             setIsEditing(false);
         } catch (error) {
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || 'Cập nhật thất bại');
         }
-    };
-
-    const handleBeforeUpload = async (file) => {
-        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-        if (!isJpgOrPng) {
-            message.error('Bạn chỉ có thể tải lên file JPG/PNG!');
-        }
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isLt2M) {
-            message.error('Hình ảnh phải nhỏ hơn 2MB!');
-        }
-        if (isJpgOrPng && isLt2M) {
-            // Đọc file và hiển thị preview
-            const reader = new FileReader();
-            const formData = new FormData();
-            formData.append('image', file);
-
-            try {
-                await requestUploadImage(formData);
-                window.location.reload();
-            } catch (error) {
-                console.log(error);
-            }
-
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-                setIsEditing(false);
-                message.success('Đổi ảnh thành công!');
-            };
-        }
-        // Ngăn chặn việc tự động tải lên
-        return false;
     };
 
     const viewItems = [
@@ -93,14 +60,13 @@ const PersonalInfo = () => {
                 <div className="flex flex-col items-center gap-2">
                     <Avatar
                         size={100}
-                        src={`${import.meta.env.VITE_API_URL}/${dataUser.avatar}`}
+                        src={
+                            dataUser.avatar
+                                ? `${import.meta.env.VITE_API_URL}/${dataUser.avatar}`
+                                : null
+                        }
                         icon={<UserOutlined />}
                     />
-                    {isEditing && (
-                        <Upload name="avatar" showUploadList={false} beforeUpload={handleBeforeUpload}>
-                            <Button icon={<UploadOutlined />}>Đổi ảnh</Button>
-                        </Upload>
-                    )}
                 </div>
                 <div className="flex-1 w-full">
                     {isEditing ? (
@@ -129,7 +95,11 @@ const PersonalInfo = () => {
                         <>
                             <Descriptions bordered layout="vertical" items={viewItems} />
                             {!dataUser.idStudent && (
-                                <Button type="primary" onClick={handleRequestStudentId} className="mt-4">
+                                <Button
+                                    type="primary"
+                                    onClick={handleRequestStudentId}
+                                    className="mt-4"
+                                >
                                     Gửi yêu cầu cấp mã sinh viên
                                 </Button>
                             )}

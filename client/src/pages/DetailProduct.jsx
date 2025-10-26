@@ -18,7 +18,7 @@ function DetailProduct() {
     useEffect(() => {
         const fetchData = async () => {
             const res = await requestGetOneProduct(id);
-            setDataProduct(res.metadata);
+            setDataProduct(res.data);
         };
         fetchData();
     }, [id]);

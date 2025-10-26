@@ -25,14 +25,12 @@ router.get('/auth', authUser, asyncHandler(controllerUser.authUser));
 router.get('/refresh-token', asyncHandler(controllerUser.refreshToken));
 router.get('/logout', authUser, asyncHandler(controllerUser.logout));
 router.post('/update-user', authUser, upload.single('avatar'), asyncHandler(controllerUser.updateInfoUser));
-router.post('/login-google', asyncHandler(controllerUser.loginGoogle));
 router.post('/forgot-password', asyncHandler(controllerUser.forgotPassword));
 router.post('/reset-password', asyncHandler(controllerUser.resetPassword));
 router.get('/get-users', asyncHandler(controllerUser.getUsers));
 router.post('/update-user-admin', asyncHandler(controllerUser.updateUser));
 router.post('/delete-user', asyncHandler(controllerUser.deleteUser));
 router.post('/update-password', asyncHandler(controllerUser.updatePassword));
-router.post('/upload-image', upload.single('image'), authUser, asyncHandler(controllerUser.changeAvatar));
 
 router.post('/request-id-student', authUser, asyncHandler(controllerUser.requestIdStudent));
 router.post('/confirm-id-student', asyncHandler(controllerUser.confirmIdStudent));

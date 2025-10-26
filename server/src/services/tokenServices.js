@@ -1,22 +1,21 @@
 const jwt = require('jsonwebtoken');
-const { AuthFailureError } = require('../core/error.response');
 require('dotenv').config();
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_default_secret'; // nhớ có trong .env
+const JWT_SECRET = process.env.JWT_SECRET
 
-const createToken = async (payload) => {
+const createToken =  (payload) => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' });
 };
 
-const createRefreshToken = async (payload) => {
+const createRefreshToken =  (payload) => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
 };
 
-const verifyToken = async (token) => {
+const verifyToken =  (token) => {
   try {
     return jwt.verify(token, JWT_SECRET);
   } catch (error) {
-    throw new AuthFailureError('Vui lòng đăng nhập lại');
+    throw new error('Vui lòng đăng nhập lại');
   }
 };
 

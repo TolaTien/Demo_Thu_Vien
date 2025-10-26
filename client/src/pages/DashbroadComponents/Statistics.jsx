@@ -10,7 +10,7 @@ const Statistics = () => {
     useEffect(() => {
         const fetchData = async () => {
             const res = await requestStatistics();
-            setData(res);
+            setData(res.data);
         };
         fetchData();
     }, []);
